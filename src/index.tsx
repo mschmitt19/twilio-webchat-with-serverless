@@ -10,7 +10,10 @@ import { ConfigState } from "./store/definitions";
 import { initLogger } from "./logger";
 
 const defaultConfig: ConfigState = {
-    serverUrl: "http://localhost:3001",
+    serverUrl:
+        window.location.hostname === "localhost"
+            ? `${process.env.REACT_APP_LOCAL_SERVER_URL}`
+            : `${process.env.REACT_APP_HOSTED_SERVER_URL}`,
     theme: {
         isLight: true
     },

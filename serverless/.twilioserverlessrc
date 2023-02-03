@@ -1,0 +1,8 @@
+{
+    "commands": {},
+    "environments": {},
+    "projects": {},
+    "runtime": "node16",
+    "serviceName": "webchat-serverless",
+    "tail": true
+}
