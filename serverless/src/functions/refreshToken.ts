@@ -63,10 +63,10 @@ export const handler: ServerlessFunctionSignature = async function (
             })
         );
         providedIdentity = validatedToken?.grants?.identity;
-    } catch (e: any) {
-        console.log("Invalid token provided:", e.message);
+    } catch (error: any) {
+        console.log("Invalid token provided:", error.message);
         response.setStatusCode(403);
-        response.setBody({ error: `Invalid token provided: ${e.message}` });
+        response.setBody({ error: `Invalid token provided: ${error.message}` });
         return callback(null, response);
     }
 

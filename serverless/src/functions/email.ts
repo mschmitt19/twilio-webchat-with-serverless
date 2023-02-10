@@ -82,10 +82,10 @@ export const handler: ServerlessFunctionSignature = async function (
     try {
         const message = await sendMessage(event.body, context);
         response.setBody({ message });
-    } catch (err: any) {
-        console.error(err);
+    } catch (error: any) {
+        console.error(error);
         response.setStatusCode(500);
-        response.setBody({ error: `Invalid token provided: ${err.message}` });
+        response.setBody({ error: `Invalid token provided: ${error.message}` });
         return callback(null, response);
     }
 

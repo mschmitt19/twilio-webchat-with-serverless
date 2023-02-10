@@ -1,4 +1,3 @@
-// @ts-nocheck
 // Imports global types
 import "@twilio-labs/serverless-runtime-types";
 import axios from "axios";
@@ -6,7 +5,7 @@ import axios from "axios";
 import { Context, ServerlessCallback, ServerlessFunctionSignature } from "@twilio-labs/serverless-runtime-types/types";
 
 type InitWebchatEvent = {
-    formData: {
+    formData?: {
         friendlyName: string;
         email: string;
         query: string;
@@ -54,9 +53,9 @@ const contactWebchatOrchestrator = async (
             }
         });
         ({ identity, conversation_sid: conversationSid } = res.data);
-    } catch (e: any) {
-        console.log("Something went wrong during the orchestration:", e.response?.data?.message);
-        throw e.response.data;
+    } catch (error: any) {
+        console.log("Something went wrong during the orchestration:", error.response?.data?.message);
+        throw error.response.data;
     }
 
     console.log("Webchat Orchestrator successfully called");
@@ -99,7 +98,7 @@ const sendUserMessage = async (
         .messages.create({
             body: messageBody,
             author: identity,
-            xTwilioWebhookEnabled: true // trigger webhook
+            xTwilioWebhookEnabled: "true" // trigger webhook
         })
         .then(() => {
             console.log("(async) User message sent");
