@@ -46,7 +46,7 @@ The frontend application is identical to the [_Twilio Webchat React_](https://gi
 
 ### Populate `.env` Files
 
-There are two `.env` to populate; one at the root of the respository and one in the `./serverless` directory.
+There are two `.env` to populate; one at the root of the repository and one in the `./serverless` directory.
 
 1. Run the following to make a copy of the `.env.sample` file at the root, then populate the values:
 
@@ -141,6 +141,23 @@ Twilio Webchat React App is an open source repository that includes:
 
 For an overview of the React app, please refer to the [_Twilio Webchat React_](https://github.com/twilio/twilio-webchat-react-app) README.
 
+### Configuration
+
+For an overview of all configuration options, please refer to the [_Twilio Webchat React_](https://github.com/twilio/twilio-webchat-react-app#configuration) README.
+
+This version has an additional optional configuration parameter, `sessionData`. If populated, properties within will be included in the `pre_engagement_data` of the conversation. This example adds two properties: `userId` and `entryPoint`.
+
+```javascript
+window.addEventListener("DOMContentLoaded", () => {
+    Twilio.initWebchat({
+        sessionData: {
+            userId: "123",
+            entryPoint: "view-product-456"
+        }
+    });
+});
+```
+
 ## Local Backend Server
 
 As mentioned before, Twilio Webchat App requires a backend to hit in order to work correctly.
@@ -168,7 +185,7 @@ This second endpoint is in charge of refreshing a token that is about to expire.
 In order to use a deployed version of this widget you will need to follow these three steps:
 
 1. Build and deploy the serverless function endpoints
-2. Build and compile minimised React App code.
+2. Build and compile minimized React App code.
 3. (Optional) Update your website template.
 
 ## Build and deploy the serverless function endpoints
@@ -190,15 +207,15 @@ Since Typescript was used in development, the `.ts` files are compiled to `.js` 
 
 After successful deployment, copy the `URL` of the deployed function, which will be needed in the next step.
 
-## Build and compile minimised React App code.
+## Build and compile minimized React App code
 
 The next step is to compile a build of the Webchat React App, which will eventually be hosted via Twilio Assets.
 
-1. Take the output `URL` of the deployed function and paste it into the `.env` file where the `REACT_APP_HOSTED_SERVER_URL` placeholder string is (e.g. `https://xxxx-xxxxx-####-dev.twil.io`):
+1. Take the output `URL` of the deployed functions and paste it into the `.env` file where the `REACT_APP_HOSTED_SERVER_URL` placeholder string is (e.g. `https://xxxx-xxxxx-####-dev.twil.io`):
 
     ```
     ## base endpoint of your hosted server (twilio serverless functions)
-    REACT_APP_HOSTED_SERVER_URLhttps://xxxx-xxxxx-####-dev.twil.io
+    REACT_APP_HOSTED_SERVER_URL=https://xxxx-xxxxx-####-dev.twil.io
     ```
 
 2. The following command will build the React app and place the minimized build in the `assets` folder of our Twilio Serverless function:
@@ -207,17 +224,45 @@ The next step is to compile a build of the Webchat React App, which will eventua
     yarn build
     ```
 
-3. Lastly, deploy the function again with the following:
+3. Lastly, deploy the functions again with the following:
     ```
     yarn deploy-server
     ```
 
 ## Update Your Website Template (optional)
 
-Once the bundle is uploaded, you can have it loaded in your website page, as per example below:
+Once the bundle is uploaded, you can have it loaded in your website page, as per one of the two examples below:
+
+### Embedded iframe
+
+Add the following, replacing `[serverless domain]` with the same domain used for `REACT_APP_HOSTED_SERVER_URL`:
 
 ```html
-<iframe src="https://[...]index.html"></iframe>
+<iframe src="https://[serverless domain]/index.html"></iframe>
+```
+
+### Embedded JavaScript (recommended)
+
+First, add the following script tag, replacing `[serverless domain]` with the same domain used for `REACT_APP_HOSTED_SERVER_URL`:
+
+```html
+<script defer src="https://[serverless domain]/static/js/main.js"></script>
+```
+
+Finally, add the code to initialize the webchat app as per following example.
+
+For more information about the available options, please check the [Configuration section](#configuration).
+
+```html
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        Twilio.initWebchat({
+            theme: {
+                isLight: true
+            }
+        });
+    });
+</script>
 ```
 
 # Browser Support
@@ -226,7 +271,7 @@ For Browser Support, please refer to the [_Twilio Webchat React_](https://github
 
 # Accessibility
 
-For Accessbility, please refer to the [_Twilio Webchat React_](https://github.com/twilio/twilio-webchat-react-app) README..
+For Accessibility, please refer to the [_Twilio Webchat React_](https://github.com/twilio/twilio-webchat-react-app) README..
 
 # FAQs
 

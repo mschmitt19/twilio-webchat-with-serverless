@@ -44,6 +44,7 @@ export type ConfigState = {
     };
     fileAttachment?: FileAttachmentConfig;
     transcript?: TranscriptConfig;
+    sessionData?: { [key: string]: string };
 };
 
 export type Notification = {
