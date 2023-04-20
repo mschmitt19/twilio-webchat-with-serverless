@@ -18,6 +18,7 @@ import { introStyles, fieldStyles, titleStyles, formStyles } from "./styles/PreE
 
 export const PreEngagementFormPhase = () => {
     const { name, email, query } = useSelector((state: AppState) => state.session.preEngagementData) || {};
+    const { sessionData } = useSelector((state: AppState) => state.config) || {};
     const dispatch = useDispatch();
 
     const handleSubmit = async (e: FormEvent) => {
@@ -28,7 +29,8 @@ export const PreEngagementFormPhase = () => {
                 formData: {
                     friendlyName: name,
                     email,
-                    query
+                    query,
+                    ...sessionData
                 }
             });
             dispatch(initSession({ token: data.token, conversationSid: data.conversationSid }));
