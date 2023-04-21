@@ -249,6 +249,12 @@ First, add the following script tag, replacing `[serverless domain]` with the sa
 <script defer src="https://[serverless domain]/static/js/main.js"></script>
 ```
 
+Next, declare the root element that the webchat widget will be rendered into:
+
+```html
+<div id="twilio-webchat-widget-root"></div>
+```
+
 Finally, add the code to initialize the webchat app as per following example.
 
 For more information about the available options, please check the [Configuration section](#configuration).
