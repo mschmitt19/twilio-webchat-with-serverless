@@ -17,9 +17,9 @@ The frontend application is identical to the [_Twilio Webchat React_](https://gi
     2. [Working locally](#working-locally)
 2. [Features](#Features)
 3. [Project structure](#Project-structure)
-    1. [React App](#react-app)
-    2. [Local backend server](#local-backend-server)
-4. [Working in production](#working-in-production)
+    1. [React app](#react-app)
+    2. [Serverless functions](#serverless-functions)
+4. [Deployment Steps](#deployment-steps)
 5. [Browser support](#Browser-support)
 6. [Accessibility](#Accessibility)
 7. [FAQs](#faqs)
@@ -46,44 +46,17 @@ The frontend application is identical to the [_Twilio Webchat React_](https://gi
 
 ### Populate `.env` Files
 
-There are two `.env` to populate; one at the root of the repository and one in the `./serverless` directory.
+There are two `.env` to populate; one at the root of the repository and one in the `./serverless` directory. We provide a handy `bootstrap` script to set up the environment variables required for you.
 
-1. Run the following to make a copy of the `.env.default` file at the root, then populate the values:
-
-    ```
-    cp .env.default .env
-    ```
-
-    ```
-    # ALLOWED_ORIGINS should be a comma-separated list of origins
-    ALLOWED_ORIGINS=http://localhost:3000
-
-    ## base endpoint of your local server. By default it is "http://localhost:3003"
-    REACT_APP_LOCAL_SERVER_URL=http://localhost:3003
-
-    # Used to enable/disable downloading/emailing of chat transcripts for the customer. Enable by setting the variable to true.
-    DOWNLOAD_TRANSCRIPT_ENABLED=false
-    EMAIL_TRANSCRIPT_ENABLED=false
-
-    # The environment variable below are optional and should only be filled if enabling email chat transcripts.
-    SENDGRID_API_KEY=xxxxxxxxxxxxxxxx
-    FROM_EMAIL=xxxxxxxxxxxxxxxx
-    ```
-
-2. Change directories to the `./serverless` directory and generate an `.env` file from the default, then populate the values:
-
-    ```
-    cp .env.default .env
-    ```
-
-    ```
-    ACCOUNT_SID=xxxxxxxxxxxxxxxxx
-    AUTH_TOKEN=xxxxxxxxxxxxxxxxx
-    ADDRESS_SID=xxxxxxxxxxxxxxxxx
-    API_KEY=xxxxxxxxxxxxxxxxx
-    API_SECRET=xxxxxxxxxxxxxxxxx
-    CONVERSATIONS_SERVICE_SID=xxxxxxxxxxxxxxxxx
-    ```
+```shell
+yarn bootstrap \
+accountSid=YOUR_ACCOUNT_SID \
+authToken=YOUR_AUTH_TOKEN \
+apiKey=YOUR_API_KEY_SID \
+apiSecret=YOUR_API_SECRET \
+addressSid=YOUR_ADDRESS_SID \
+conversationsServiceSid=YOUR_CONVERSATIONS_SERVICE_SID
+```
 
 You can find your **Account Sid** and **Auth Token** on the main [Twilio Console page](https://console.twilio.com/).
 
@@ -93,7 +66,7 @@ You can find your **Conversations Service Sid** on the [services page](https://c
 
 For the Address Sid, click on the edit button of your address and the edit screen will contain Address Sid. Note this Sid starts with `IG`.
 
-The environment variables associated with enabling and configuring customer transcripts can be found in the `.env.sample` file and their use will be covered [here](#chat-transcripts).
+The environment variables associated with enabling and configuring customer transcripts can be found in the `.env.default` file, as well as the `.env` file after running the bootstrap script. Their use is covered [in the Twilio Webchat React readme](https://github.com/twilio/twilio-webchat-react-app/#chat-transcripts).
 
 ## Working Locally
 
@@ -125,10 +98,10 @@ For a feature overview of the application, please refer to the [_Twilio Webchat 
 
 # Project Structure
 
-Twilio Webchat React App is an open source repository that includes:
+This repository includes two packages:
 
-1. A React App
-2. A local backend server
+1. A React app
+2. Serverless functions for securely invoking the Twilio Webchat APIs
 
 ## React App
 
@@ -151,7 +124,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 ```
 
-## Local Backend Server
+## Serverless functions
 
 As mentioned before, Twilio Webchat App requires a backend to hit in order to work correctly.
 This backend functionality — found in the `serverless` folder — exposes two main endpoints:
@@ -177,13 +150,21 @@ This second endpoint is in charge of refreshing a token that is about to expire.
 
 In order to use a deployed version of this widget you will need to follow these three steps:
 
-1. Build and deploy the serverless function endpoints
-2. Build and compile minimized React App code.
+1. Build and compile minimized React App code.
+2. Build and deploy the serverless function endpoints
 3. (Optional) Update your website template.
+
+## Build and compile minimized React App code
+
+The first step is to compile a build of the Webchat React App, which will eventually be hosted via Twilio Assets. This is important to do first, as the app needs to be compiled and copied to the serverless `assets` directory in order to be deployed. The following command will build the React app and place the minimized build in the `assets` folder of our Twilio Serverless function:
+
+```shell
+yarn build
+```
 
 ## Build and deploy the serverless function endpoints
 
-The first step is to build and deploy the endpoints. This is important to do first since we need the endpoint URL of our function to update the React App code with before we build that.
+The next step is to build and deploy the serverless functions and assets.
 
 Since Typescript was used in development, the `.ts` files are compiled to `.js` files and copied to a `dist/` folder which are then used for deployment.
 
@@ -198,45 +179,15 @@ Since Typescript was used in development, the `.ts` files are compiled to `.js` 
     yarn deploy-server
     ```
 
-After successful deployment, copy the `URL` of the deployed function, which will be needed in the next step.
-
-## Build and compile minimized React App code
-
-The next step is to compile a build of the Webchat React App, which will eventually be hosted via Twilio Assets.
-
-1. Take the output `URL` of the deployed functions and paste it into the `.env` file where the `REACT_APP_HOSTED_SERVER_URL` placeholder string is (e.g. `https://xxxx-xxxxx-####-dev.twil.io`):
-
-    ```
-    ## base endpoint of your hosted server (twilio serverless functions)
-    REACT_APP_HOSTED_SERVER_URL=https://xxxx-xxxxx-####-dev.twil.io
-    ```
-
-2. The following command will build the React app and place the minimized build in the `assets` folder of our Twilio Serverless function:
-
-    ```shell
-    yarn build
-    ```
-
-3. Lastly, deploy the functions again with the following:
-    ```
-    yarn deploy-server
-    ```
+After successful deployment, copy the `domain` of the deployed functions, which will be needed in the next step.
 
 ## Update Your Website Template (optional)
 
 Once the bundle is uploaded, you can have it loaded in your website page, as per one of the two examples below:
 
-### Embedded iframe
-
-Add the following, replacing `[serverless domain]` with the same domain used for `REACT_APP_HOSTED_SERVER_URL`:
-
-```html
-<iframe src="https://[serverless domain]/index.html"></iframe>
-```
-
 ### Embedded JavaScript (recommended)
 
-First, add the following script tag, replacing `[serverless domain]` with the same domain used for `REACT_APP_HOSTED_SERVER_URL`:
+First, add the following script tag, replacing `[serverless domain]` with the same domain output from the deployment steps above:
 
 ```html
 <script defer src="https://[serverless domain]/static/js/main.js"></script>
@@ -262,6 +213,14 @@ For more information about the available options, please check the [Configuratio
         });
     });
 </script>
+```
+
+### Embedded iframe
+
+Add the following, replacing `[serverless domain]` with the same domain output from the deployment steps above:
+
+```html
+<iframe src="https://[serverless domain]/index.html"></iframe>
 ```
 
 # Browser Support

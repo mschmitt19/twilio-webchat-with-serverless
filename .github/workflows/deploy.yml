@@ -31,9 +31,9 @@ jobs:
                   apiSecret=${{ secrets.TWILIO_API_SECRET }} \
                   addressSid=${{ secrets.ADDRESS_SID }} \
                   conversationsServiceSid=${{ secrets.CONVERSATIONS_SERVICE_SID }}
-            - name: build serverless functions
-              run: yarn build-server
             - name: build app
               run: yarn build
+            - name: build serverless functions
+              run: yarn build-server
             - name: deploy serverless functions and app
               run: yarn deploy-server --username ${{ secrets.TWILIO_API_KEY }} --password ${{ secrets.TWILIO_API_SECRET }}
