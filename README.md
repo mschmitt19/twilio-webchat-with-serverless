@@ -154,6 +154,15 @@ In order to use a deployed version of this widget you will need to follow these 
 2. Build and deploy the serverless function endpoints
 3. (Optional) Update your website template.
 
+The first two steps can be performed automatically via the included GitHub Actions workflow. This workflow requires configuring the following repository secrets, using the values from the Getting Started section above:
+
+-   TWILIO_API_KEY
+-   TWILIO_API_SECRET
+-   ADDRESS_SID
+-   CONVERSATIONS_SERVICE_SID
+
+You may also follow the steps below to manually deploy.
+
 ## Build and compile minimized React App code
 
 The first step is to compile a build of the Webchat React App, which will eventually be hosted via Twilio Assets. This is important to do first, as the app needs to be compiled and copied to the serverless `assets` directory in order to be deployed. The following command will build the React app and place the minimized build in the `assets` folder of our Twilio Serverless function:
