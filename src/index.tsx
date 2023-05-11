@@ -9,11 +9,20 @@ import { initConfig } from "./store/actions/initActions";
 import { ConfigState } from "./store/definitions";
 import { initLogger } from "./logger";
 
+const getDomain = () => {
+    if (
+        window.location.hostname !== "localhost" &&
+        document.currentScript &&
+        (document.currentScript as HTMLScriptElement).src
+    ) {
+        const uri = new URL((document.currentScript as HTMLScriptElement).src);
+        return uri.origin;
+    }
+    return process.env.REACT_APP_LOCAL_SERVER_URL;
+};
+
 const defaultConfig: ConfigState = {
-    serverUrl:
-        window.location.hostname === "localhost"
-            ? `${process.env.REACT_APP_LOCAL_SERVER_URL}`
-            : `${process.env.REACT_APP_HOSTED_SERVER_URL}`,
+    serverUrl: getDomain(),
     theme: {
         isLight: true
     },

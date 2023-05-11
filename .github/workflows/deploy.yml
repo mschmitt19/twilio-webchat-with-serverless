@@ -1,0 +1,37 @@
+name: deploy
+
+on:
+    # Run on merge to main
+    #push:
+    #  branches:
+    #  - main
+
+    # Enable running this workflow manually from the Actions tab
+    workflow_dispatch:
+
+env:
+    TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+    TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+    TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+    ADDRESS_SID: ${{ secrets.ADDRESS_SID }}
+    CONVERSATIONS_SERVICE_SID: ${{ secrets.CONVERSATIONS_SERVICE_SID }}
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "16"
+            - name: install dependencies
+              run: yarn
+            - name: install twilio-cli and serverless toolkit
+              run: yarn install:ci
+            - name: build serverless functions
+              run: yarn build-server
+            - name: build app
+              run: yarn build
+            - name: deploy serverless functions and app
+              run: yarn deploy-server
