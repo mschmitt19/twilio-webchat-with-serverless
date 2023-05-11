@@ -26,7 +26,9 @@ jobs:
               with:
                   node-version: "16"
             - name: install dependencies
-              run: yarn
+              run: |
+                  yarn
+                  cd serverless && yarn
             - name: install twilio-cli and serverless toolkit
               run: yarn install:ci
             - name: build serverless functions
