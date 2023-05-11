@@ -3,6 +3,6 @@
     "environments": {},
     "projects": {},
     "runtime": "node16",
-    "serviceName": "webchat-serverless",
+    "serviceName": "webchat-react-app-serverless",
     "tail": true
 }

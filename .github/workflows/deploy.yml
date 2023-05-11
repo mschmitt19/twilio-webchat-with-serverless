@@ -9,13 +9,6 @@ on:
     # Enable running this workflow manually from the Actions tab
     workflow_dispatch:
 
-env:
-    TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-    TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
-    TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
-    ADDRESS_SID: ${{ secrets.ADDRESS_SID }}
-    CONVERSATIONS_SERVICE_SID: ${{ secrets.CONVERSATIONS_SERVICE_SID }}
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -32,7 +25,7 @@ jobs:
             - name: populate environment
               run: |
                   yarn bootstrap \
-                  accountSid=${{ secrets.TWILIO_ACCOUNT_SID }} \
+                  accountSid=unused \
                   authToken=unused \
                   apiKey=${{ secrets.TWILIO_API_KEY }} \
                   apiSecret=${{ secrets.TWILIO_API_SECRET }} \
