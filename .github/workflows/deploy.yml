@@ -31,6 +31,15 @@ jobs:
                   cd serverless && yarn
             - name: install twilio-cli and serverless toolkit
               run: yarn install:ci
+            - name: populate environment
+              run: |
+                  yarn bootstrap \
+                  accountSid=${{ secrets.TWILIO_ACCOUNT_SID }} \
+                  authToken=unused \
+                  apiKey=${{ secrets.TWILIO_API_KEY }} \
+                  apiSecret=${{ secrets.TWILIO_API_SECRET }} \
+                  addressSid=${{ secrets.ADDRESS_SID }} \
+                  conversationsServiceSid=${{ secrets.CONVERSATIONS_SERVICE_SID }}
             - name: build serverless functions
               run: yarn build-server
             - name: build app

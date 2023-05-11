@@ -48,20 +48,13 @@ The frontend application is identical to the [_Twilio Webchat React_](https://gi
 
 There are two `.env` to populate; one at the root of the repository and one in the `./serverless` directory.
 
-1. Run the following to make a copy of the `.env.sample` file at the root, then populate the values:
+1. Run the following to make a copy of the `.env.default` file at the root, then populate the values:
 
     ```
-    cp .env.sample .env
+    cp .env.default .env
     ```
 
     ```
-    ACCOUNT_SID=xxxxxxxxxxxxxxxx
-    AUTH_TOKEN=xxxxxxxxxxxxxxxx
-    API_KEY=xxxxxxxxxxxxxxxx
-    API_SECRET=xxxxxxxxxxxxxxxx
-    ADDRESS_SID=xxxxxxxxxxxxxxxx
-    CONVERSATIONS_SERVICE_SID=xxxxxxxxxxxxxxxx
-
     # ALLOWED_ORIGINS should be a comma-separated list of origins
     ALLOWED_ORIGINS=http://localhost:3000
 
@@ -77,10 +70,10 @@ There are two `.env` to populate; one at the root of the repository and one in t
     FROM_EMAIL=xxxxxxxxxxxxxxxx
     ```
 
-2. Change directories to the `./serverless` directory and generate an `.env` file from the sample, then populate the values:
+2. Change directories to the `./serverless` directory and generate an `.env` file from the default, then populate the values:
 
     ```
-    cp .env.sample .env
+    cp .env.default .env
     ```
 
     ```

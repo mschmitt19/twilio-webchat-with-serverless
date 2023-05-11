@@ -37,17 +37,17 @@ const getParams = () => {
     return { accountSid, authToken, addressSid, apiKey, apiSecret, conversationsServiceSid };
 };
 
-const getInitialEnvFile = () => {
+const getInitialEnvFile = (path) => {
     try {
-        return fs.readFileSync(".env.sample").toString();
+        return fs.readFileSync(path).toString();
     } catch (e) {
-        throw "Couldn't read an .env.sample file.";
+        throw `Couldn't read the file "${path}".`;
     }
 };
 try {
     const { accountSid, addressSid, apiKey, apiSecret, authToken, conversationsServiceSid } = getParams();
 
-    let envFileContent = getInitialEnvFile()
+    let envFileContent = getInitialEnvFile("serverless/.env.default")
         .replace(/(?<=ACCOUNT_SID=)(\w*)/gm, accountSid)
         .replace(/(?<=AUTH_TOKEN=)(\w*)/gm, authToken)
         .replace(/(?<=API_KEY=)(\w*)/gm, apiKey)
@@ -55,7 +55,10 @@ try {
         .replace(/(?<=ADDRESS_SID=)(\w*)/gm, addressSid)
         .replace(/(?<=CONVERSATIONS_SERVICE_SID=)(\w*)/gm, conversationsServiceSid);
 
-    fs.writeFileSync(".env", envFileContent);
+    fs.writeFileSync("serverless/.env", envFileContent);
+
+    let appEnvFileContent = getInitialEnvFile(".env.default");
+    fs.writeFileSync(".env", appEnvFileContent);
 
     console.log("✅  Project bootstrapped");
 } catch (e) {

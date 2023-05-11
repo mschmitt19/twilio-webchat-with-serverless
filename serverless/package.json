@@ -6,7 +6,6 @@
         "test": "tsc --noEmit",
         "start": "twilio-run --functions-folder dist/functions --assets-folder dist/assets --port 3003",
         "deploy": "twilio-run deploy --functions-folder dist/functions --assets-folder src/assets",
-        "deploy:ci": "yarn deploy -- --load-system-env --env=.env.sample",
         "build": "tsc && npm run build:copy-assets",
         "build:copy-assets": "copyfiles src/assets/* src/assets/**/* --up 2 --exclude **/*.ts dist/assets/",
         "prestart": "npm run build",
