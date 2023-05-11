@@ -29,8 +29,6 @@ jobs:
               run: |
                   yarn
                   cd serverless && yarn
-            - name: install twilio-cli and serverless toolkit
-              run: yarn install:ci
             - name: populate environment
               run: |
                   yarn bootstrap \
@@ -45,4 +43,4 @@ jobs:
             - name: build app
               run: yarn build
             - name: deploy serverless functions and app
-              run: yarn deploy-server
+              run: yarn deploy-server --username ${{ secrets.TWILIO_API_KEY }} --password ${{ secrets.TWILIO_API_SECRET }}

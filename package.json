@@ -75,8 +75,7 @@
         "bootstrap": "node scripts/bootstrap",
         "e2eCleanupExistingTasks": "node scripts/e2eCleanupExistingTasks",
         "deploy": "yarn build && node scripts/deploy",
-        "eject": "react-app-rewired eject",
-        "install:ci": "yarn add -DE twilio-cli@5.5.0 && twilio plugins:install @twilio-labs/plugin-serverless@v2"
+        "eject": "react-app-rewired eject"
     },
     "browserslist": [
         ">0.2%",
