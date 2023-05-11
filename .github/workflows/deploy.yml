@@ -2,9 +2,9 @@ name: deploy
 
 on:
     # Run on merge
-    push:
-        branches:
-            - ci
+    # push:
+    #     branches:
+    #         - main
 
     # Enable running this workflow manually from the Actions tab
     workflow_dispatch:
@@ -25,8 +25,8 @@ jobs:
             - name: populate environment
               run: |
                   yarn bootstrap \
-                  accountSid=unused \
-                  authToken=unused \
+                  accountSid=unused-in-ci \
+                  authToken=unused-in-ci \
                   apiKey=${{ secrets.TWILIO_API_KEY }} \
                   apiSecret=${{ secrets.TWILIO_API_SECRET }} \
                   addressSid=${{ secrets.ADDRESS_SID }} \
@@ -36,4 +36,4 @@ jobs:
             - name: build serverless functions
               run: yarn build-server
             - name: deploy serverless functions and app
-              run: yarn deploy-server --username ${{ secrets.TWILIO_API_KEY }} --password ${{ secrets.TWILIO_API_SECRET }}
+              run: yarn deploy-server --override-existing-project --username ${{ secrets.TWILIO_API_KEY }} --password ${{ secrets.TWILIO_API_SECRET }}
