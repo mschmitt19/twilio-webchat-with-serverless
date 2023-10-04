@@ -64,7 +64,7 @@ For more info on how to create an **API key** and an **API secret**, please chec
 
 You can find your **Conversations Service Sid** on the [services page](https://console.twilio.com/us1/develop/conversations/manage/services?frameUrl=%2Fconsole%2Fconversations%2Fservices%3Fx-target-region%3Dus1). Make sure to pick the one linked to your Flex Account — usually it is named `Flex Chat Service` and it starts with `IS`
 
-For the Address Sid, click on the edit button of your address and the edit screen will contain Address Sid. Note this Sid starts with `IG`.
+For the **Address Sid**, click on the edit button of your address on the [messaging conversations addresses page](https://console.twilio.com/us1/develop/flex/manage/messaging/conversations) and the edit screen will contain Address Sid. Note this Sid starts with `IG`.
 
 The environment variables associated with enabling and configuring customer transcripts can be found in the `.env.default` file, as well as the `.env` file after running the bootstrap script. Their use is covered [in the Twilio Webchat React readme](https://github.com/twilio/twilio-webchat-react-app/#chat-transcripts).
 
