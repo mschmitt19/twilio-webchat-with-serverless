@@ -32,13 +32,15 @@ The frontend application is identical to the [_Twilio Webchat React_](https://gi
 
 ### Install Dependencies
 
+1. [Install the yarn package manager](https://classic.yarnpkg.com/lang/en/docs/install/), which is needed before performing the next steps.
+
 1. **Install React App Dependencies** - run the following command at the root of the repository:
 
     ```
     yarn
     ```
 
-2. **Install Serverless Dependencies** - navigate to the `/serverless` directory:
+1. **Install Serverless Dependencies** - navigate to the `/serverless` directory:
 
     ```
     cd serverless && yarn
@@ -64,7 +66,7 @@ For more info on how to create an **API key** and an **API secret**, please chec
 
 You can find your **Conversations Service Sid** on the [services page](https://console.twilio.com/us1/develop/conversations/manage/services?frameUrl=%2Fconsole%2Fconversations%2Fservices%3Fx-target-region%3Dus1). Make sure to pick the one linked to your Flex Account — usually it is named `Flex Chat Service` and it starts with `IS`
 
-For the **Address Sid**, click on the edit button of your address on the [messaging conversations addresses page](https://console.twilio.com/us1/develop/flex/manage/messaging/conversations) and the edit screen will contain Address Sid. Note this Sid starts with `IG`.
+For the **Address Sid**, first ensure you have a valid chat address configured as described [here](https://www.twilio.com/docs/flex/admin-guide/setup/conversations/manage-conversations-chat-addresses). Click on the edit button of your chat address on the [messaging conversations addresses page](https://console.twilio.com/us1/develop/flex/manage/messaging/conversations) and the edit screen will contain Address Sid. Note this Sid starts with `IG`.
 
 The environment variables associated with enabling and configuring customer transcripts can be found in the `.env.default` file, as well as the `.env` file after running the bootstrap script. Their use is covered [in the Twilio Webchat React readme](https://github.com/twilio/twilio-webchat-react-app/#chat-transcripts).
 
